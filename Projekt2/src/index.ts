@@ -2,25 +2,36 @@
 import express from 'express'
 import {Request, Response} from 'express'
 import { json } from 'stream/consumers'
+import {Note} from './note'
 
 const app = express()
-//const notes = []
+
+const notes: Array<Note> = new Array();
 
 app.use(express.json())
 
-app.get('/', function (req: Request, res: Response) {
-  let note = {title:"test",content:"test_content"}
-  res.send(note)
+app.get('/getall', function (req: Request, res: Response) {
+  res.send(notes)
 })
-app.post('/', function (req: Request, res: Response) {
-  console.log(req.body) // e.x. req.body.title 
+app.get('/note/:id', function (req: Request, res: Response) {
+  let id  = req.params.id;
+  res.send(notes.filter(x =>x.id == +id))
+})
+app.delete('/note/:id', function (req: Request, res: Response) {
+  let id  = req.params.id;
+  notes.splice(notes.findIndex(x =>x.id == +id), 1)
+  
+  res.send("Note deleted")
+})
+app.post('/note', function (req: Request, res: Response) {
+  console.log(req.body) 
 
-  let title: string = req.body.title;
-  let content: string = req.body.content;
-  let note = {title:title,content:content}
+  let note: Note = new Note(req.body.title, req.body.content);
+  notes.push(note);
   res.send(note)
-
-  //res.status(200).send('POST Hello World')
 })
 
 app.listen(3000)
+
+
+
