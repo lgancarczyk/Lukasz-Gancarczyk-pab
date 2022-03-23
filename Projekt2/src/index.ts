@@ -10,8 +10,8 @@ const notes: Array<Note> = new Array();
 
 app.use(express.json())
 
-app.get('/getall', function (req: Request, res: Response) {
-  res.send(notes)
+app.get('/notes', function (req: Request, res: Response) {
+  res.status(200).send(notes)
 })
 
 app.get('/note/:id', function (req: Request, res: Response) {
