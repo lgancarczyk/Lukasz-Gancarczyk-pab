@@ -3,6 +3,7 @@ import express from 'express'
 import {Request, Response} from 'express'
 import { json } from 'stream/consumers'
 import {Note} from './note'
+import {Tag} from './tag'
 
 const app = express()
 
@@ -74,6 +75,26 @@ app.post('/note', function (req: Request, res: Response) {
   {
     console.log(req.body) 
 
+    let tagsFromPost: Array<Tag> = new Array();
+    tagsFromPost = req.body.tags
+    tagsFromPost.forEach(element => {
+      let tag: Tag = new Tag(element.name);
+      if(tag.CheckIfExists(tag.name) == false)
+      {
+        //tag.updateStorage(tag)
+        let x = tag.readStorage()
+        x.then((x) => {
+          // console.log(x.name)
+          // console.log(x.id)
+          x.forEach(element => {
+            console.log(element.name)
+            console.log(element.id)
+          });
+        })
+      }
+      
+      
+    });
     let note: Note = new Note(req.body.title, req.body.content);
     notes.push(note);
     res.status(201).send(note.id.toString());
