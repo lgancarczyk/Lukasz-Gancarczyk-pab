@@ -12,7 +12,9 @@ const notes: Array<Note> = new Array();
 app.use(express.json())
 
 app.get('/notes', function (req: Request, res: Response) {
-  res.status(200).send(notes)
+
+  let note: Note =  new Note();
+  res.status(200).send(note.ReadAllFileToJSON())
 
 })
 
@@ -78,15 +80,16 @@ app.post('/note', function (req: Request, res: Response) {
 
     let tagsFromPost: Array<Tag> = new Array();
     tagsFromPost = req.body.tags
-    let tagIdsToNote:Number[]
+    let tagIdsToNote: Array<number> = new Array()
     tagsFromPost.forEach(element => {
       let tag = new Tag(element.name)
       //AddTag zwraca nam id podanego taga
       tagIdsToNote.push(tag.AddTag(tag))
     });
     
-    let note: Note = new Note(req.body.title, req.body.content);
-    notes.push(note);
+    let note: Note = new Note(req.body.title, req.body.content, tagIdsToNote);
+    note.AddNote(note)
+    console.log("x")
     res.status(201).send(note.id.toString());
   }
   
