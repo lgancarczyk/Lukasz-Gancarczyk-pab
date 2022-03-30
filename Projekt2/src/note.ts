@@ -1,4 +1,3 @@
-import internal from "stream";
 import { Tag } from "./tag";
 
 export class Note{

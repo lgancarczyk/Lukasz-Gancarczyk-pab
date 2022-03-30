@@ -13,6 +13,7 @@ app.use(express.json())
 
 app.get('/notes', function (req: Request, res: Response) {
   res.status(200).send(notes)
+
 })
 
 app.get('/note/:id', function (req: Request, res: Response) {
@@ -78,29 +79,18 @@ app.post('/note', function (req: Request, res: Response) {
     let tagsFromPost: Array<Tag> = new Array();
     tagsFromPost = req.body.tags
     tagsFromPost.forEach(element => {
-      let tag: Tag = new Tag(element.name);
-      if(tag.CheckIfExists(tag.name) == false)
-      {
-        //tag.updateStorage(tag)
-        let x = tag.readStorage()
-        x.then((x) => {
-          // console.log(x.name)
-          // console.log(x.id)
-          x.forEach(element => {
-            console.log(element.name)
-            console.log(element.id)
-          });
-        })
-      }
-      
-      
+      let tag = new Tag(element.name)
+      tag.AddNewTag(tag)
     });
+    
     let note: Note = new Note(req.body.title, req.body.content);
     notes.push(note);
     res.status(201).send(note.id.toString());
   }
   
 })
+
+
 
 app.listen(3000)
 
