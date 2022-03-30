@@ -80,7 +80,8 @@ app.post('/note', function (req: Request, res: Response) {
     tagsFromPost = req.body.tags
     tagsFromPost.forEach(element => {
       let tag = new Tag(element.name)
-      tag.AddNewTag(tag)
+      const tagID = tag.AddTag(tag)
+      console.log(tagID)
     });
     
     let note: Note = new Note(req.body.title, req.body.content);

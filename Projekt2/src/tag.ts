@@ -16,33 +16,33 @@ export class Tag{
 
     private CheckIfExists(tagName: string):boolean {
         let tags = this.ReadAllFileToJSON()
-        tags.forEach(element => {
-            if(element.name==tagName)
-            {
-                console.log("istnieje")
-                return true
-            }
-        });
-        return false
+        const elemFound = tags.some(el => el.name === tagName);
+        return elemFound
     }
 
-    public AddNewTag(tag:Tag)
+    public AddTag(tag:Tag):number
     {
         if(this.CheckIfExists(tag.name) == false)
         {
-            
             let tags = this.ReadAllFileToJSON()
             tags.push(tag)
             fs.writeFileSync('Tags.json', JSON.stringify(tags))
         }
+        return this.FindTagId(tag.name)
         
+    }
+
+    private FindTagId(tagName: string)
+    {
+        let tags = this.ReadAllFileToJSON()
+        const TagsElementId = tags.findIndex(el => el.name === tagName);
+        return tags[TagsElementId].id
     }
     private ReadAllFileToJSON()
     {
         let rawdata = fs.readFileSync('Tags.json')
         let tags: Tag[] = JSON.parse(rawdata.toString())
         return tags;
-        
     }
     
 
