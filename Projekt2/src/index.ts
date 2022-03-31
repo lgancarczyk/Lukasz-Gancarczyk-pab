@@ -54,14 +54,15 @@ app.put('/note/:id', function (req: Request, res: Response) {
 app.delete('/note/:id', function (req: Request, res: Response) {
   let id  = req.params.id;
   
-  if(notes.findIndex(x =>x.id == +id) == -1)
+  let note:Note=new Note()
+  if(note.IsInDatabase(+id) == false)
   {
     res.status(404).send("Wrong Id!")
   }
   else
   {
-    notes.splice(notes.findIndex(x =>x.id == +id), 1)
-    res.status(204).send("Note deleted.")
+    note.DeleteNote(+id)
+    res.status(200).send("Note deleted!");
   }
 })
 

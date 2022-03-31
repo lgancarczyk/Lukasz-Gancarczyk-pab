@@ -23,9 +23,13 @@ export class Note{
         console.log("xx")
         let notes = this.ReadAllFileToJSON()
         notes.push(note)
-        fs.writeFileSync('Notes.json', JSON.stringify(notes))
+        this.WriteToNotes(notes)
     }
 
+    private WriteToNotes(notes:Array<Note>)
+    {
+        fs.writeFileSync('Notes.json', JSON.stringify(notes))
+    }
     public IsInDatabase(id:number):boolean
     {
         let notes = this.ReadAllFileToJSON()
@@ -33,6 +37,16 @@ export class Note{
         return elemFound
 
     }
+
+    public DeleteNote(id:number)
+    {
+        let notes = this.ReadAllFileToJSON()
+        const notesElementId = notes.findIndex(el => el.id === id);
+        notes = notes.splice(notesElementId+1, 1)
+        this.WriteToNotes(notes)
+
+    }
+
     public GetNote(id:number)
     {
         let notes = this.ReadAllFileToJSON()
