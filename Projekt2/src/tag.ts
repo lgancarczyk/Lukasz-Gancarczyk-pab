@@ -8,9 +8,10 @@ export class Tag{
     name: string;
     
     
-    constructor(name: string)
+    constructor(name: string ="", id: number = 0)
     {
         this.name = name;
+        this.id = id;
         this.id = Date.now()
     }
 
@@ -30,6 +31,12 @@ export class Tag{
         }
         return this.FindTagId(tag.name)
         
+    }
+    public findTagName(tagId: number)
+    {
+        let tags = this.ReadAllFileToJSON()
+        const TagsElementId = tags.findIndex(el => el.id === tagId);
+        return tags[TagsElementId].name
     }
 
     private FindTagId(tagName: string)

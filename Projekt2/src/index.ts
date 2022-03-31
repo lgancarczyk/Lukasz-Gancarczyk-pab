@@ -14,7 +14,8 @@ app.use(express.json())
 app.get('/notes', function (req: Request, res: Response) {
 
   let note: Note =  new Note();
-  res.status(200).send(note.ReadAllFileToJSON())
+  //res.status(200).send(note.ReadAllFileToJSON())
+  res.status(200).send(note.GetAllNote())
 
 })
 

@@ -1,5 +1,6 @@
 import { Tag } from "./tag";
 import fs, { write } from 'fs';
+import { NoteViewModel } from "./noteViewModel";
 
 export class Note{
     title: string;
@@ -23,6 +24,18 @@ export class Note{
         let notes = this.ReadAllFileToJSON()
         notes.push(note)
         fs.writeFileSync('Notes.json', JSON.stringify(notes))
+    }
+    public GetAllNote()
+    {
+        let rawdata = fs.readFileSync('Notes.json')
+        let notes: Note[] = JSON.parse(rawdata.toString())
+        //let notesWithTags: NoteViewModel[]
+        let notesWithTags: Array<NoteViewModel> = new Array()
+        notes.forEach(element => {
+            let noteModel:NoteViewModel = new NoteViewModel(element)
+            notesWithTags.push(noteModel)
+        });
+        return notesWithTags;
     }
 
     public ReadAllFileToJSON()
