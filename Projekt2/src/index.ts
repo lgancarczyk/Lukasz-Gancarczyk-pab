@@ -21,14 +21,14 @@ app.get('/notes', function (req: Request, res: Response) {
 
 app.get('/note/:id', function (req: Request, res: Response) {
   let id  = req.params.id;
-  let note = notes.filter(x =>x.id == +id)
-  if(notes.findIndex(x =>x.id == +id) == -1)
+  let note:Note=new Note()
+  if(note.IsInDatabase(+id) == false)
   {
     res.status(404).send("Note doesn`t exist!")
   }
   else
   {
-    res.status(200).send(note);
+    res.status(200).send(note.GetNote(+id));
   }
 })
 

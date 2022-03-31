@@ -28,4 +28,5 @@ export class NoteViewModel{
         });
         return tags
     }
+
 }
