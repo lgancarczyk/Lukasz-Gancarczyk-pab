@@ -101,6 +101,7 @@ app.post('/note', function (req: Request, res: Response) {
 app.post('/login', function (req: Request, res: Response)
 {
   let user: User = new User(req.body.login, req.body.password)
+  res.status(200).send(user.LoginUser(user))
   
 
 })

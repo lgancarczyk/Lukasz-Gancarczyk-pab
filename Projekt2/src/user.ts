@@ -1,4 +1,5 @@
 import fs, { write } from 'fs';
+import jwt from 'jsonwebtoken';
 
 
 
@@ -7,6 +8,7 @@ export class User{
     id: number;
     login: string;
     password: string;
+    secret: string = "3rgdsfdsfgg";
 
     public constructor(login: string, password: string)
     {
@@ -33,19 +35,6 @@ export class User{
         return this.FindUserId(user.login)
     }
 
-    public FindUserId(login: string)
-    {
-        let users = this.ReadAllFileToJSON()
-        const UsersElementId = users.findIndex(el => el.login === login);
-        return users[UsersElementId].id
-    }
-
-    private ReadAllFileToJSON()
-    {
-        let rawdata = fs.readFileSync('Users.json')
-        let users: User[] = JSON.parse(rawdata.toString())
-        return users;
-    }
     private IsPasswordCorrect(user:User)
     {
         let users = this.ReadAllFileToJSON()
@@ -59,12 +48,32 @@ export class User{
             return false;
         }
     }
-    // public LoginUser(user:User)
-    // {
-    //     if(this.IsPasswordCorrect(user) == true)
-    //     {
-    //         const token = jwt
-    //     }
-    // }
+
+    public FindUserId(login: string)
+    {
+        let users = this.ReadAllFileToJSON()
+        const UsersElementId = users.findIndex(el => el.login === login);
+        return users[UsersElementId].id
+    }
+
+    private ReadAllFileToJSON()
+    {
+        let rawdata = fs.readFileSync('Users.json')
+        let users: User[] = JSON.parse(rawdata.toString())
+        return users;
+    }
+    
+    public LoginUser(user:User)
+    {
+        if(this.IsPasswordCorrect(user) == true)
+        {
+            // const token = jwt.sign(
+            //     {"id": this.FindUserId(user.login),
+            //     "login": user.login},
+            //      this.secret)
+            return "token";
+        }
+        else {return "ccc"}
+    }
 
 }
