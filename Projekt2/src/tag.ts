@@ -10,7 +10,7 @@ export class Tag{
     
     constructor(name: string ="", id: number = 0)
     {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.id = id;
         this.id = Date.now()
     }

@@ -4,6 +4,7 @@ import {Request, Response} from 'express'
 import { json } from 'stream/consumers'
 import {Note} from './note'
 import {Tag} from './tag'
+import {User} from './user'
 
 const app = express()
 
@@ -95,6 +96,26 @@ app.post('/note', function (req: Request, res: Response) {
     res.status(201).send(note.id.toString());
   }
   
+})
+
+app.post('/login', function (req: Request, res: Response)
+{
+  let user: User = new User(req.body.login, req.body.password)
+  
+
+})
+
+app.post('/register', function (req: Request, res: Response)
+{
+  let user: User = new User(req.body.login, req.body.password)
+  if(user.CheckIfExists(user.login)==false)
+  {
+    res.status(201).send(`User Created. Id: ${user.AddNewUser(user).toString()}`);
+  }
+  else
+  {
+    res.status(400).send("User already exists!")
+  }
 })
 
 
