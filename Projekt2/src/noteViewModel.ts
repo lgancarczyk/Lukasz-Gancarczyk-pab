@@ -16,7 +16,7 @@ export class NoteViewModel{
         this.id = note.id
         this.date = note.date;
         this.tags = this.ParseTagIdToString(note.tags);
-        console.log("Note created");
+        //console.log("Note created");
     }
     private ParseTagIdToString(TagsId: Array<number>)
     {
