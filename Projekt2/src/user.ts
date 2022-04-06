@@ -35,19 +35,19 @@ export class User{
         return this.FindUserId(user.login)
     }
 
-    private IsPasswordCorrect(user:User)
-    {
-        let users = this.ReadAllFileToJSON()
-        const UsersId:number = this.FindUserId(user.login)
-        if(users[UsersId].password == user.password)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    // private IsPasswordCorrect(user:User)
+    // {
+    //     let users = this.ReadAllFileToJSON()
+    //     const UsersId:number = this.FindUserId(user.login.toString())
+    //     if(users[UsersId].password == user.password)
+    //     {
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
 
     public FindUserId(login: string)
     {
@@ -65,15 +65,20 @@ export class User{
     
     public LoginUser(user:User)
     {
-        if(this.IsPasswordCorrect(user) == true)
+        let users = this.ReadAllFileToJSON()
+        const UsersId = users.findIndex(el => el.login === user.login);
+        if(users[UsersId].login == user.login &&  users[UsersId].password == user.password)
         {
-            // const token = jwt.sign(
-            //     {"id": this.FindUserId(user.login),
-            //     "login": user.login},
-            //      this.secret)
-            return "token";
+                const token = jwt.sign(
+                {"id": this.FindUserId(user.login),
+                "login": user.login},
+                 this.secret)
+            return token;
         }
-        else {return "ccc"}
+        else
+        {
+            return "zle"
+        }
     }
 
 }
