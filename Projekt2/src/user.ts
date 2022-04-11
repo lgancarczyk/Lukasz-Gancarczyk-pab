@@ -59,12 +59,20 @@ export class User{
             return false;
         }
     }
-    // public LoginUser(user:User)
-    // {
-    //     if(this.IsPasswordCorrect(user) == true)
-    //     {
-    //         const token = jwt
-    //     }
-    // }
+    private GenerateToken(user:User)
+    {
+        return "token"
+    }
+    public LoginUser(user:User)
+    {
+        if(this.IsPasswordCorrect(user))
+        {
+            return this.GenerateToken(user)
+        }
+        else
+        {
+            throw "Invalid Login or Password!"
+        }
+    }
 
 }
