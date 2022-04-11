@@ -1,4 +1,5 @@
 import fs, { write } from 'fs';
+import jwt from 'jsonwebtoken';
 
 
 
@@ -33,6 +34,20 @@ export class User{
         return this.FindUserId(user.login)
     }
 
+    // private IsPasswordCorrect(user:User)
+    // {
+    //     let users = this.ReadAllFileToJSON()
+    //     const UsersId:number = this.FindUserId(user.login.toString())
+    //     if(users[UsersId].password == user.password)
+    //     {
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
+
     public FindUserId(login: string)
     {
         let users = this.ReadAllFileToJSON()
@@ -46,32 +61,22 @@ export class User{
         let users: User[] = JSON.parse(rawdata.toString())
         return users;
     }
-    private IsPasswordCorrect(user:User)
-    {
-        let users = this.ReadAllFileToJSON()
-        const UsersId:number = this.FindUserId(user.login)
-        if(users[UsersId].password == user.password)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    private GenerateToken(user:User)
-    {
-        return "token"
-    }
+    
     public LoginUser(user:User)
     {
-        if(this.IsPasswordCorrect(user))
+        let users = this.ReadAllFileToJSON()
+        const UsersId = users.findIndex(el => el.login === user.login);
+        if(users[UsersId].login == user.login &&  users[UsersId].password == user.password)
         {
-            return this.GenerateToken(user)
+                // const token = jwt.sign(
+                // {"id": this.FindUserId(user.login),
+                // "login": user.login},
+                //  this.secret)
+            //return token;
         }
         else
         {
-            throw "Invalid Login or Password!"
+            return "zle"
         }
     }
 
