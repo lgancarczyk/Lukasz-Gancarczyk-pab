@@ -101,7 +101,6 @@ app.post('/note', function (req: Request, res: Response) {
 app.post('/login', function (req: Request, res: Response)
 {
   let user: User = new User(req.body.login, req.body.password)
-<<<<<<< HEAD
   try
   {
     res.status(201).send(user.LoginUser(user))
@@ -110,10 +109,7 @@ app.post('/login', function (req: Request, res: Response)
   {
     res.status(401).send(exception)
   }
-=======
-  res.status(200).send(user.LoginUser(user))
->>>>>>> e23d72c0c24af55e6a50de8af1fc74fda2ed5830
-  
+
 
 })
 

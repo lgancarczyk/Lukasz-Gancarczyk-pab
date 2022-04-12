@@ -61,6 +61,15 @@ export class User{
         let users: User[] = JSON.parse(rawdata.toString())
         return users;
     }
+    private GenerateToken(user:User)
+    {
+        const token = jwt.sign(
+                {"id": this.FindUserId(user.login),
+                "login": user.login},
+                 user.password)
+            return token;
+    }
+    
     
     public LoginUser(user:User)
     {
@@ -73,10 +82,11 @@ export class User{
                 // "login": user.login},
                 //  this.secret)
             //return token;
+            return this.GenerateToken(user)
         }
         else
         {
-            return "zle"
+            throw "Invalid Login or Password!"
         }
     }
 
