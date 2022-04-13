@@ -14,11 +14,9 @@ export class FileManager
         let tags: Tag[] = JSON.parse(rawdata.toString())
         return tags;
     }
-    SaveNewTag(tag:Tag)
+    SaveTags(tags:Tag[])
     {
-        let tags = this.GetAllTags()
-            tags.push(tag)
-            fs.writeFileSync('database/tags.json', JSON.stringify(tags))
+        fs.writeFileSync('database/tags.json', JSON.stringify(tags))
     }
 
     GetAllNotes()
@@ -28,11 +26,9 @@ export class FileManager
         return notes;
     }
 
-    SaveNewNote(note:Note)
+    SaveNotes(notes:Note[])
     {
-        let tags = this.GetAllNotes()
-            tags.push(note)
-            fs.writeFileSync('database/notes.json', JSON.stringify(tags))
+        fs.writeFileSync('database/notes.json', JSON.stringify(notes))
     }
 
 }

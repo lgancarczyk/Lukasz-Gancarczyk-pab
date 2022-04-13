@@ -33,7 +33,35 @@ router.post('/note', (req: Request, res: Response) => {
   }
 
 
-    })
+})
+
+router.get('/note/:id', (req: Request, res: Response) => {
+  try
+  {
+    let note = _notesService.GetNote(+req.params.id)
+    res.status(200).send(note);
+
+
+  }
+  catch(error)
+  {
+    res.status(404).send(error)
+  }
+
+})
+router.delete('/delete/:id', (req: Request, res: Response) => {
+  try
+  {
+    _notesService.DeleteNote(+req.params.id)
+    res.status(200).send("Note deleted!");
+
+  }
+  catch(error)
+  {
+    res.status(404).send(error)
+  }
+
+})
 
 
 

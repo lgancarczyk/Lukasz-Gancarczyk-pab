@@ -16,7 +16,9 @@ export class TagsService
 
         if(this.CheckIfExists(tag.tag) == false)
         {
-            this._fileManager.SaveNewTag(newTag)
+            let tags = this._fileManager.GetAllTags()
+            tags.push(newTag)
+            this._fileManager.SaveTags(tags)
         }
         return this.FindTagId(tag.tag)
     }
@@ -32,6 +34,13 @@ export class TagsService
         let tags = this._fileManager.GetAllTags()
         const TagsElementId = tags.findIndex(el => el.tag === tagName);
         return tags[TagsElementId].id
+    }
+
+    GetTagById(id:number)
+    {
+        let tags = this._fileManager.GetAllTags()
+        const TagsElementId = tags.findIndex(el => el.id === id);
+        return tags[TagsElementId]
     }
 }
 
