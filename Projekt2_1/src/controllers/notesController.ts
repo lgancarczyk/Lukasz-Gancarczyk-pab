@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Note from '../models/note';
 import { TagsService } from '../services/tagsService';
 import { NotesService } from '../services/notesService';
+import { main } from '../services/dbcontext'
 
 const express = require('express');
 const router = express.Router();
@@ -12,6 +13,7 @@ const _notesService: NotesService = new NotesService()
 
 router.get('/testget', (req: Request, res: Response) => {
 
+main();
 res.status(200).send("success");
 })
 

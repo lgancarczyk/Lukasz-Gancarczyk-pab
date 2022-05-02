@@ -24,7 +24,7 @@ router.post('/login', (req: Request, res: Response) => {
 
 router.post('/register', (req: Request, res: Response) => {
 
-    _usersService.register(req.body.login, req.body.password)
+    //_usersService.register(req.body.login, req.body.password)
 }) 
 
 
