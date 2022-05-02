@@ -1,0 +1,38 @@
+1.Crud użytkowników
+2.Crud przepisów
+3.Crud komentarzy
+4.Crud ocen
+5.Wyszukiwanie przepisów po tagach
+6.Wyszukiwanie przepisów po tytule
+
+Models:
+    User:
+        -UserId
+        -Username
+        -Password
+        -Recipes[]
+        -Comments[]
+        -Rates[]
+
+    Recipe:
+        -RecipeId
+        -UserId (creator)
+        -Title
+        -NoOfPortions
+        -CookingTime
+        -Ingredients[]
+        -Instruction
+        -CreationTime
+        -Tags[]
+
+    Comment:
+        -CommentId
+        -RecipeId
+        -UserId
+        -Content
+        -CreationTime
+
+    Rate:  (User can for rate once for every recipe)
+        -RecipeId
+        -UserId
+        -rate (1-5)
