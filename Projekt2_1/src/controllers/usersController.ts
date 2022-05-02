@@ -22,6 +22,11 @@ router.post('/login', (req: Request, res: Response) => {
     res.status(200).send("login");
 })    
 
+router.post('/register', (req: Request, res: Response) => {
+
+    _usersService.register(req.body.login, req.body.password)
+}) 
+
 
 
 
