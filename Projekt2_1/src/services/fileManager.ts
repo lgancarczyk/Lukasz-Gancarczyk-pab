@@ -4,6 +4,7 @@ import {Tag} from '../models/tag'
 import {Note} from '../models/note'
 import { json } from 'stream/consumers'
 import fs, { write } from 'fs';
+import { User } from '../models/user'
 
 
 export class FileManager
@@ -29,6 +30,18 @@ export class FileManager
     SaveNotes(notes:Note[])
     {
         fs.writeFileSync('database/notes.json', JSON.stringify(notes))
+    }
+
+    GetAllUsers()
+    {
+        let rawdata = fs.readFileSync('database/users.json')
+        let users: User[] = JSON.parse(rawdata.toString())
+        return users;
+    }
+
+    SaveUsers(users:User[])
+    {
+        fs.writeFileSync('database/users.json', JSON.stringify(users))
     }
 
 }
