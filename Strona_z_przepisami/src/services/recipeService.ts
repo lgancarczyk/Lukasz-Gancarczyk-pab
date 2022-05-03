@@ -1,8 +1,30 @@
+import mongoose from "mongoose";
+import { dbmain } from "./DBContext";
+import { recipeModel } from "./DBContext";
 
-export class RecipeService
-{
-    AddRecipe()
-    {
-        return 1;
+
+export class RecipeService {
+
+    async AddRecipe(_title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
+        
+
+        try {
+
+            const newRecipe = new recipeModel({
+                Title: _title,
+                NoOfPortions: _noOfPortions,
+                CookingTime: _cookingTime,
+                Ingredients: _ingredients,
+                Instruction: _instruction,
+                Tags: _tags
+            })
+    
+            const saveRet = await newRecipe.save(); // także .update(), .updateMany(), .validate()
+            return newRecipe.id;
+        } 
+        catch (error) {
+            throw error
+        }
+          
     }
 }
