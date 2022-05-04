@@ -14,3 +14,4 @@ export const recipeSchema = new mongoose.Schema({
     {
         timestamps: true
     })
+
