@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { send } from 'process';
+import {UserService} from '../services/userService'
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require("cookie-parser")
@@ -12,6 +13,8 @@ const express = require('express');
 const router = express.Router();
 const app = express()
 app.use(express.json())
+
+const _userService = new UserService();
 
 router.post('/register', async (req: Request, res: Response) => {
 
@@ -28,15 +31,7 @@ router.post('/register', async (req: Request, res: Response) => {
         if(existingUsername){
             throw "Username already exists!"
         }
-
-        const salt = await bcrypt.genSalt()
-        const passwordHash = await bcrypt.hash(password, salt)
-
-        const newUser = new User({
-            username: username,
-            password: passwordHash
-        })
-        const savedUser = await newUser.save()
+        let newUser = await _userService.AddUser(username, password)
 
         res.status(200).send(newUser.id)
     }
@@ -55,25 +50,7 @@ router.post('/login', async (req: Request, res: Response) => {
             throw "Not all fields are included"
         }
         
-        const user = await User.findOne({username:username})
-        if(!user){
-            throw "User does not exists!"
-        }
-        const isMatch = await bcrypt.compare(password, user.password)
-        if(!isMatch){
-            throw "Invalid password"
-        }
-
-        const payload = {
-            id: user._id,
-            username: user.username
-        }
-
-        const signInOptions= {
-            expiresIn: '1h'
-        }
-
-        const token = jwt.sign(payload, "xxx", signInOptions)
+        let token = await _userService.LoginUser(username, password)
 
         res.status(200).send(token)
     }
@@ -90,12 +67,7 @@ router.delete('/delete', async (req: Request, res: Response) => {
         if(!token){
             throw "Authorization error!"
         }
-        const verified = jwt.verify(token, "xxx")
-        if(!verified){
-            throw "Authorization denied!"
-        }
-        
-        const deletedUser = await User.findByIdAndDelete(verified.id)
+        let deletedUser = await _userService.DeleteUser(token)
         res.status(200).send(`Deleted User Id: ${deletedUser.id}`)
     }
     catch(error)
