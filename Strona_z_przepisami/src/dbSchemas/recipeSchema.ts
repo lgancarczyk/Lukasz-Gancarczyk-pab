@@ -10,7 +10,7 @@ export const recipeSchema = new mongoose.Schema({
     Ingredients: { type: [String], required: true },
     Instruction: { type: String, required: true },
     Tags: { type: [String], required: true }
-},
+    },
     {
         timestamps: true
     })

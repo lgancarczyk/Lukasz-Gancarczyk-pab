@@ -35,8 +35,9 @@ router.get('/get/:id', (req: Request, res: Response) => {
     res.status(200).send("success");
 })
 
-router.put('/edit/:id', (req: Request, res: Response) => {
-
+router.put('/edit/:id', async (req: Request, res: Response) => {
+    let id = req.params.id
+    let recipeId = await _recipeService.UpdateRecipe(id)
     res.status(200).send("success");
 })
 

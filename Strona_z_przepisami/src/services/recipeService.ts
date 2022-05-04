@@ -22,9 +22,14 @@ export class RecipeService {
             const saveRet = await newRecipe.save(); // także .update(), .updateMany(), .validate()
             return newRecipe.id;
         } 
-        catch (error) {
-            throw error
+        catch (e) {
+            throw e
         }
           
+    }
+
+    async UpdateRecipe(id:string)
+    {
+        return id;
     }
 }

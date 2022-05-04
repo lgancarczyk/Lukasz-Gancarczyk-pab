@@ -24,6 +24,7 @@ Models:
         -Instruction
         -CreationTime
         -Tags[]
+        -Comments
 
     Comment:
         -CommentId
