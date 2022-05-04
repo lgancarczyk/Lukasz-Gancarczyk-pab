@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { dbmain } from "./DBContext";
-import { recipeModel } from "./DBContext";
+const Recipe = require('../dbSchemas/recipeSchema')
 
 
 export class RecipeService {
@@ -10,7 +10,7 @@ export class RecipeService {
 
         try {
 
-            const newRecipe = new recipeModel({
+            const newRecipe = new Recipe({
                 Title: _title,
                 NoOfPortions: _noOfPortions,
                 CookingTime: _cookingTime,

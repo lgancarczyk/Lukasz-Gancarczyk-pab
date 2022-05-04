@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { send } from 'process';
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cookieParser = require("cookie-parser")
 
 const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
@@ -63,8 +64,6 @@ router.post('/login', async (req: Request, res: Response) => {
             throw "Invalid password"
         }
 
-        //const token = jwt.sign({id: user._id}, process.env.JWT_SECRET)
-
         const payload = {
             id: user._id,
             username: user.username
@@ -72,10 +71,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
         const signInOptions= {
             expiresIn: '1h'
-          };
+        }
+
         const token = jwt.sign(payload, "xxx", signInOptions)
-        //const token = jwt.sign({id: user._id}, "xxx")
-        
 
         res.status(200).send(token)
     }
