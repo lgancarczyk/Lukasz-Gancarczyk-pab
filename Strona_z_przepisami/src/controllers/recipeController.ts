@@ -11,15 +11,15 @@ const _recipeService = new RecipeService();
 router.post('/add', async (req: Request, res: Response) => {
     // let recipeId = await _recipeService.AddRecipe();
     // res.status(200).send(`RecipeId: ${recipeId}`);
-    
+    const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
     try
     {
-        let recipeId = await _recipeService.AddRecipe(req.body.Title,
-                                                        req.body.NoOfPortions,
-                                                        req.body.CookingTime,
-                                                        req.body.Ingredients,
-                                                        req.body.Instruction,
-                                                        req.body.Tags);
+        let recipeId = await _recipeService.AddRecipe(Title,
+                                                        NoOfPortions,
+                                                        CookingTime,
+                                                        Ingredients,
+                                                        Instruction,
+                                                        Tags);
         res.status(200).send(`RecipeId: ${recipeId}`);
     }
     catch(error)

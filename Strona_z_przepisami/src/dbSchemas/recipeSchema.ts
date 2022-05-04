@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-export const recipeSchema = new mongoose.Schema({
+const recipeSchema = new mongoose.Schema({
     //ReicpeId: { type:String, required:true, unique:true, index:true, default:mongoose.Types.ObjectId },
     //UserId: 
     Title: { type: String, required: true },
@@ -14,4 +14,7 @@ export const recipeSchema = new mongoose.Schema({
     {
         timestamps: true
     })
+const Recipe = mongoose.model('recipe', recipeSchema)
+
+module.exports = Recipe
 
