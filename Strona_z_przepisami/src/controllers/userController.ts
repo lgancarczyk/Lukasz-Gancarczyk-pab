@@ -3,7 +3,6 @@ import { send } from 'process';
 import {UserService} from '../services/userService'
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const cookieParser = require("cookie-parser")
 
 const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
@@ -51,8 +50,12 @@ router.post('/login', async (req: Request, res: Response) => {
         }
         
         let token = await _userService.LoginUser(username, password)
-
+        res.cookie('accesstoken', token)
         res.status(200).send(token)
+
+        // console.log(_userService.LoggedIn())
+        //
+        //res.status(200).send(token)
     }
     catch(error)
     {
@@ -60,15 +63,30 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
 })
-router.delete('/delete', async (req: Request, res: Response) => {
+router.get('/logout', auth, async (req:Request, res:Response) => {
+    res
+      .clearCookie("accesstoken")
+      .status(200)
+      .send("Logged out!")  
+    });
+
+router.get('/testget', auth, async (req:Request, res:Response) => {
+    let x = req.headers.userId
+    let y = req.headers.username
+    res.status(200).send(`${x} ${y}`)
+    });
+
+router.get('/protected', async (req:Request, res:Response) => {
+    let x = req.cookies
+    res.status(200).send(x)
+    })
+
+router.delete('/delete',auth, async (req: Request, res: Response) => {
 
     try{
-        const token = req.header('x-auth-token')
-        if(!token){
-            throw "Authorization error!"
-        }
-        let deletedUser = await _userService.DeleteUser(token)
-        res.status(200).send(`Deleted User Id: ${deletedUser.id}`)
+        let x = req.headers.userId
+        let deletedUser = await _userService.DeleteUser(x)
+        res.clearCookie("accesstoken").status(200).send(`Deleted User Id: ${deletedUser.id}`)
     }
     catch(error)
     {

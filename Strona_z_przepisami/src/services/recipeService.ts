@@ -5,12 +5,13 @@ const Recipe = require('../dbSchemas/recipeSchema')
 
 export class RecipeService {
 
-    async AddRecipe(_title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
+    async AddRecipe(_userId:any,_title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
         
 
         try {
 
             const newRecipe = new Recipe({
+                UserId: _userId,
                 Title: _title,
                 NoOfPortions: _noOfPortions,
                 CookingTime: _cookingTime,

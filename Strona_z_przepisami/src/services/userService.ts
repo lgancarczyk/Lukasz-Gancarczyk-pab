@@ -1,10 +1,13 @@
+import { Console } from "console"
+
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require("cookie-parser")
 
+
 const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
-
+const secret:string = "xxx"
 
 export class UserService {
     async AddUser(username: string, password: string) {
@@ -39,7 +42,7 @@ export class UserService {
                 expiresIn: '1h'
             }
 
-            const token = jwt.sign(payload, "xxx", signInOptions)
+            const token = jwt.sign(payload, secret, signInOptions)
 
             return token
         }
@@ -48,14 +51,34 @@ export class UserService {
         }
     }
 
-    async DeleteUser(token: string) {
-        const verified = jwt.verify(token, "xxx")
-        if (!verified) {
-            throw "Authorization denied!"
+    async DeleteUser(userId:any) {
+        
+        try{
+            const deletedUser = await User.findByIdAndDelete(userId)
+            return deletedUser
+        }
+        catch(error){
+            throw error
+        }
+    }
+
+    async LoggedIn(){
+        
+        try {
+            let token = cookieParser.cookies.accesstoken;
+            if(!token){
+                throw "Please Log In"
+            }
+            let verified = jwt.verify(token, secret)
+            if (!verified) {
+                throw "Authorization denied!"
+            }
+            console.log(verified.id)
+            return verified
+        } catch {
+        throw "Please Log In"
         }
 
-        const deletedUser = await User.findByIdAndDelete(verified.id)
-        return deletedUser
     }
 }
 

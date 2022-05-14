@@ -5,16 +5,18 @@ const express = require('express');
 const router = express.Router();
 const app = express()
 app.use(express.json())
-
+const auth = require("../middleware/auth")
 const _recipeService = new RecipeService();
 
-router.post('/add', async (req: Request, res: Response) => {
+router.post('/add',auth, async (req: Request, res: Response) => {
     // let recipeId = await _recipeService.AddRecipe();
     // res.status(200).send(`RecipeId: ${recipeId}`);
     const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
     try
     {
-        let recipeId = await _recipeService.AddRecipe(Title,
+        const userId = req.headers.userId
+        let recipeId = await _recipeService.AddRecipe(  userId,
+                                                        Title,
                                                         NoOfPortions,
                                                         CookingTime,
                                                         Ingredients,

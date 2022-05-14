@@ -1,22 +1,21 @@
-// const jwt = require('jsonwebtoken')
+import { Request, Response, NextFunction } from 'express';
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-// const auth = (req: Request, res: Response next) =>{
+const auth = (req:Request, res:Response, next:NextFunction) => {
+    const token = req.cookies.accesstoken;
+    
+    if (!token) {
+        throw "No token"
+        }
+    try {
+      const data = jwt.verify(token, "xxx");
+      req.headers.userId = data.id;
+      req.headers.username = data.username;
+      return next();
+    } catch(error) {
+      throw error
+    }
+   };
 
-//     try{
-//         const token = req.headers("x-auth-token")
-//         if(!token){
-//             res.status(400).send("Authorization error!")
-//         }
-//         const verified = jwt.verify(token, process.env.JWT_SECRET)
-//         if(!verified){
-//             res.status(401).send("Authorization denied!")
-//         }
-//         req.headers.user = verified.id
-//         next()
-//     }
-//     catch(error){
-//         res.status(500).send(error)
-//     }
-// }
-
-// module.exports = auth
+  module.exports = auth;
