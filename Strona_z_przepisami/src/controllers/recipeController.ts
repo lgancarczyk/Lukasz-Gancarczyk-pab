@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+import { title } from 'process';
 import { RecipeService } from '../services/recipeService'
 
 const express = require('express');
@@ -32,22 +34,46 @@ router.post('/add',auth, async (req: Request, res: Response) => {
 
 })
 
-router.get('/get/:id', (req: Request, res: Response) => {
+router.get('/get/:id', async (req: Request, res: Response) => {
 
-    res.status(200).send("success");
+    let recipe = await _recipeService.GetRecipe(req.params.id)
+    res.status(200).send(recipe);
 })
 
 router.put('/edit/:id', async (req: Request, res: Response) => {
-    let id = req.params.id
-    let recipeId = await _recipeService.UpdateRecipe(id)
+
     res.status(200).send("success");
 })
 
 
 
-router.delete('/delete/:id', (req: Request, res: Response) => {
+router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
+    
+    try
+    {
+        const id:any = req.params.id
 
-    res.status(200).send("success");
+        let recipe = await _recipeService.GetRecipe(id)
+        if(!recipe)
+        {
+            res.status(400).send("Recipe doesn`t exists.");
+        }
+        const userIdRecipe = recipe.UserId
+        const userIdToken = req.headers.userId
+        if(userIdRecipe == userIdToken)
+        {
+            _recipeService.DeleteRecipe(id)
+            res.status(200).send("Recipe has been deleted.");
+        }
+        else
+        {
+            res.status(400).send("Your are not the owner");
+        }
+    }
+    catch(e)
+    {
+        
+    }
 })
 
 
