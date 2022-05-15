@@ -9,6 +9,7 @@ const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
 const secret:string = "xxx"
 
+
 export class UserService {
     async AddUser(username: string, password: string) {
         const salt = await bcrypt.genSalt()
