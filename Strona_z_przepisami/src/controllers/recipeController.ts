@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { title } from 'process';
 import { RecipeService } from '../services/recipeService'
@@ -43,6 +43,28 @@ router.get('/get/:id', async (req: Request, res: Response) => {
 router.put('/edit/:id', async (req: Request, res: Response) => {
 
     res.status(200).send("success");
+})
+
+router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response) => {
+
+   try {
+        const recipeId:any = req.params.recipeId
+        const userId = req.headers.userId
+        const rating:any = req.params.rating
+
+        let recipe = await _recipeService.GetRecipe(recipeId)
+        if(!recipe)
+        {
+            res.status(400).send("Recipe doesn`t exists.");
+        }
+        _recipeService.AddRate(recipeId, userId,rating)
+
+
+    
+        res.status(200).send("success");
+   } catch (error) {
+       throw e;
+   }
 })
 
 

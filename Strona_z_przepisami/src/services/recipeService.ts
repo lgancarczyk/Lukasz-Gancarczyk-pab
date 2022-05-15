@@ -40,6 +40,27 @@ export class RecipeService {
             throw e
         }
     }
+    async AddRate(recipeId:any,userId:any, rating:number)
+    {
+        try {
+            let recipe = await Recipe.findById(recipeId)
+
+            let check: number = 0
+            recipe.Rates.forEach((element: { RateUserId: any; Rate: number; }) => {
+                if (element.RateUserId == userId) {
+                    element.Rate = rating
+                    check = 1;
+                }})
+            if (check==0) {
+                recipe.Rates.push({Rate: rating, RateUserId: userId})
+            }
+            await recipe.save()
+
+        } 
+        catch (error) {
+            
+        }
+    }
 
     async DeleteRecipe(id:any)
     {

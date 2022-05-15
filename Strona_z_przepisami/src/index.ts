@@ -16,5 +16,4 @@ app.use(cookieParser())
 app.use('/recipe', recipe)
 app.use('/user', user)
 
-
 app.listen(3000)
