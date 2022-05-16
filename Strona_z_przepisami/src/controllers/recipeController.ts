@@ -46,7 +46,7 @@ router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response)
         const userId = req.headers.userId
         const rating:any = req.params.rating
 
-        let recipe = await _recipeService.GetRecipe(recipeId)
+        let recipe = await _recipeService.GetRecipeById(recipeId)
         if(!recipe)
         {
             res.status(400).send("Recipe doesn`t exists.");
@@ -69,7 +69,7 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
     {
         const id:any = req.params.id
 
-        let recipe = await _recipeService.GetRecipe(id)
+        let recipe = await _recipeService.GetRecipeById(id)
         if(!recipe)
         {
             res.status(400).send("Recipe doesn`t exists.");
@@ -91,10 +91,15 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
         
     }
 })
+router.get('/getall', async (req: Request, res: Response) => {
+
+    let recipes = await _recipeService.GetRecipes()
+    res.status(200).send(recipes);
+})
 
 router.get('/get/:id', async (req: Request, res: Response) => {
 
-    let recipe = await _recipeService.GetRecipe(req.params.id)
+    let recipe = await _recipeService.GetRecipeById(req.params.id)
     res.status(200).send(recipe);
 })
 
@@ -106,6 +111,8 @@ router.get('/tag/:tag', async (req: Request, res: Response) => {
     
     res.status(200).send(recipes);
 })
+
+
 
 
 

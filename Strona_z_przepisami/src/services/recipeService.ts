@@ -33,17 +33,6 @@ export class RecipeService {
           
     }
 
-    async GetRecipe(id:any)
-    {
-        try{
-            let recipe = await Recipe.findById(id)
-            //let recipe = await Recipe.findOne({_id: id})
-            return recipe
-        }
-        catch(e){
-            throw e
-        }
-    }
     async AddRate(recipeId:any,userId:any, rating:number)
     {
         try {
@@ -63,6 +52,28 @@ export class RecipeService {
         } 
         catch (error) {
             
+        }
+    }
+    async GetRecipes()
+    {
+        try{
+            let recipes = await Recipe.find()
+            return recipes
+        }
+        catch(e){
+            throw e
+        }
+    }
+
+    async GetRecipeById(id:any)
+    {
+        try{
+            let recipe = await Recipe.findById(id)
+            //let recipe = await Recipe.findOne({_id: id})
+            return recipe
+        }
+        catch(e){
+            throw e
         }
     }
 
