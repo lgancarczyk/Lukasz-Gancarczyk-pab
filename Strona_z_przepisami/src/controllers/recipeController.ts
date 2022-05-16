@@ -34,12 +34,6 @@ router.post('/add',auth, async (req: Request, res: Response) => {
 
 })
 
-router.get('/get/:id', async (req: Request, res: Response) => {
-
-    let recipe = await _recipeService.GetRecipe(req.params.id)
-    res.status(200).send(recipe);
-})
-
 router.put('/edit/:id', async (req: Request, res: Response) => {
 
     res.status(200).send("success");
@@ -96,6 +90,21 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
     {
         
     }
+})
+
+router.get('/get/:id', async (req: Request, res: Response) => {
+
+    let recipe = await _recipeService.GetRecipe(req.params.id)
+    res.status(200).send(recipe);
+})
+
+//returns list of recipes with given tag
+router.get('/tag/:tag', async (req: Request, res: Response) => {
+
+    const tag:any = req.params.tag
+    let recipes = await _recipeService.GetByTag(tag)
+    
+    res.status(200).send(recipes);
 })
 
 

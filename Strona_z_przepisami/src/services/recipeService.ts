@@ -9,15 +9,19 @@ export class RecipeService {
         
 
         try {
+                let lowerTags: Array<string> = new Array<string>()
 
-            const newRecipe = new Recipe({
-                UserId: _userId,
-                Title: _title,
-                NoOfPortions: _noOfPortions,
-                CookingTime: _cookingTime,
-                Ingredients: _ingredients,
-                Instruction: _instruction,
-                Tags: _tags
+                _tags.forEach(element => {
+                lowerTags.push(element.toLocaleLowerCase())
+                });
+                const newRecipe = new Recipe({
+                    UserId: _userId,
+                    Title: _title,
+                    NoOfPortions: _noOfPortions,
+                    CookingTime: _cookingTime,
+                    Ingredients: _ingredients,
+                    Instruction: _instruction,
+                    Tags: lowerTags
             })
     
             const saveRet = await newRecipe.save(); // także .update(), .updateMany(), .validate()
@@ -60,6 +64,12 @@ export class RecipeService {
         catch (error) {
             
         }
+    }
+
+    async GetByTag(tag:string)
+    {
+        let recipes = await Recipe.find({ Tags: tag })
+        return recipes
     }
 
     async DeleteRecipe(id:any)
