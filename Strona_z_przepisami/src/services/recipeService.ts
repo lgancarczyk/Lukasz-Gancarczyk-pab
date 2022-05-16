@@ -41,8 +41,18 @@ export class RecipeService {
             let check: number = 0
             recipe.Rates.forEach((element: { RateUserId: any; Rate: number; }) => {
                 if (element.RateUserId == userId) {
-                    element.Rate = rating
-                    check = 1;
+                    if (rating == 0) {
+                        //Recipe.update({_id: recipeId}, {$pull:{Rates:{RateUserId:userId}}})
+                        recipe.Rates.pull({RateUserId: userId})
+                        recipe.save()
+                        check = 1;
+                    }
+                    else 
+                    {
+                        element.Rate = rating
+                        check = 1;
+                    }   
+                    
                 }})
             if (check==0) {
                 recipe.Rates.push({Rate: rating, RateUserId: userId})
@@ -80,6 +90,12 @@ export class RecipeService {
     async GetByTag(tag:string)
     {
         let recipes = await Recipe.find({ Tags: tag })
+        return recipes
+    }
+
+    async GetByUserId(id:any)
+    {
+        let recipes = await Recipe.find({ UserId:id })
         return recipes
     }
 

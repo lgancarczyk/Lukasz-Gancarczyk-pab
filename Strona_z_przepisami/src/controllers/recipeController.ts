@@ -112,7 +112,12 @@ router.get('/tag/:tag', async (req: Request, res: Response) => {
     res.status(200).send(recipes);
 })
 
+router.get('/getbyuserid/:id', async (req: Request, res: Response) => {
 
+    const id:any = req.params.id
+    let recipes = await _recipeService.GetByUserId(id)
+    res.status(200).send(recipes);
+})
 
 
 
