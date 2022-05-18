@@ -30,8 +30,6 @@ router.post('/add',auth, async (req: Request, res: Response) => {
     {
         res.status(400).send(error);
     }
-
-
 })
 
 router.put('/edit/:id', async (req: Request, res: Response) => {
@@ -39,6 +37,7 @@ router.put('/edit/:id', async (req: Request, res: Response) => {
     res.status(200).send("success");
 })
 
+//rating 1-5,  0-deletes rate
 router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response) => {
 
    try {
@@ -53,14 +52,11 @@ router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response)
         }
         _recipeService.AddRate(recipeId, userId,rating)
 
-
-    
         res.status(200).send("success");
    } catch (error) {
        throw e;
    }
 })
-
 
 
 router.delete('/delete/:id', auth, async (req: Request, res: Response) => {

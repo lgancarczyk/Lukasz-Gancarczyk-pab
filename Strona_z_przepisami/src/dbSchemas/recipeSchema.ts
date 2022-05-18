@@ -7,7 +7,8 @@ var rateSchema = new mongoose.Schema({
 
 // var commentSchema = new mongoose.Schema({
 //     Rate: {type:Number, min:[1, 'min rate is 1'], max:[5, 'max rate is 5']},
-//     RateUserId: {type: mongoose.Schema.Types.ObjectId, ref: 'user'}
+//     CommentUserId: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+//     CommentUserName: {}
 // }, { _id : false });
 
 const recipeSchema = new mongoose.Schema({
