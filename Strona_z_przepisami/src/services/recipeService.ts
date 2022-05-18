@@ -111,11 +111,38 @@ export class RecipeService {
         }
     }
 
-    async EditRecipe(_title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
+    async EditRecipe(id:any, _title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
         
 
         try {
-
+            let recipe = await Recipe.findById(id)
+            if(_title!= null)
+            {
+                recipe.Title = _title
+            }
+            if(_noOfPortions!= null)
+            {
+                recipe.NoOfPortions = _noOfPortions
+            }
+            if(_cookingTime)
+            {
+                recipe.CookingTime = _cookingTime
+            }
+            if(_ingredients!= null)
+            {
+                recipe.Ingredients = _ingredients
+            }
+            if(_instruction!= null)
+            {
+                recipe.Instruction = _instruction
+            }
+            if(_tags!= null)
+            {
+                recipe.Tags = _tags
+            }
+            recipe.update()
+            console.log(recipe)
+    
         } 
         catch (e) {
             throw e

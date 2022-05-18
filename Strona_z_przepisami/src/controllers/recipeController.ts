@@ -32,8 +32,19 @@ router.post('/add',auth, async (req: Request, res: Response) => {
     }
 })
 
+//Edits only given elements
 router.put('/edit/:id', async (req: Request, res: Response) => {
 
+    const id:any = req.params.id
+    const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
+    
+    await _recipeService.EditRecipe( id,
+        Title,
+        NoOfPortions,
+        CookingTime,
+        Ingredients,
+        Instruction,
+        Tags)
     res.status(200).send("success");
 })
 
