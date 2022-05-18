@@ -1,16 +1,19 @@
-import {Request, Response} from 'express'
-import {main} from './services/dbcontext'
+import { dbmain } from "./services/DBContext"
+
 const express = require('express')  
+const note = require('./controllers/noteController')
+const user = require('./controllers/userController')
+const cookieParser = require('cookie-parser')
+
+
+dbmain();
 const app = express()
-const notes = require('./controllers/notesController')
-const users = require('./controllers/usersController')
 
 app.use(express.json())
 
-main()
-app.use('/notes', notes)
-app.use('/users', users)
+app.use(cookieParser())
 
+app.use('/notes', note)
+app.use('/user', user)
 
 app.listen(3000)
-
