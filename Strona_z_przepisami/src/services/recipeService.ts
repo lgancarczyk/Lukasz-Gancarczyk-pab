@@ -149,4 +149,24 @@ export class RecipeService {
         }
           
     }
+    async AddComment(_userId:any, _recipeId:any, _comment:string)
+    {
+        try 
+        {
+            let recipe = await Recipe.findById(_recipeId)
+            recipe.Comments.push({Comment:_comment, CommentUserId:_userId})
+            await recipe.save()
+            return 1
+        } 
+        catch (error) 
+        {
+            throw error
+        }
+    }
+
+    // async GetComment(commentId:any)
+    // {
+    //     let recipe = await Recipe.find({Comments:{Comment:{id:commentId}}})
+    //     return recipe.Comment
+    // }
 }

@@ -126,6 +126,38 @@ router.get('/getbyuserid/:id', async (req: Request, res: Response) => {
     res.status(200).send(recipes);
 })
 
+router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) => {
+
+    try 
+    {
+        const recipeId:any = req.params.recipeId
+        const userId = req.headers.userId
+        const comment = req.body.Comment
+        let isSuccess = await _recipeService.AddComment(userId, recipeId, comment)
+        res.status(200).send(isSuccess.toString());
+    } 
+    catch (error) 
+    {
+        res.status(400).send(error)
+    }
+})
+
+// router.post('/deletecomment/:commentId',auth ,async (req: Request, res: Response) => {
+
+//     try 
+//     {
+//         const commentId:any = req.params.commentId
+//         const userId = req.headers.userId
+//         const comment = req.body.Comment
+//         let isSuccess = await _recipeService.AddComment(userId, commentId, comment)
+//         res.status(200).send(isSuccess.toString());
+//     } 
+//     catch (error) 
+//     {
+//         res.status(400).send(error)
+//     }
+// })
+
 
 
 
