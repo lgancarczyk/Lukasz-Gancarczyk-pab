@@ -7,7 +7,9 @@ const cookieParser = require("cookie-parser")
 
 const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
-const secret:string = "xxx"
+//const secret:string = "xxx"
+
+var setting = require('../settings.json')
 
 
 export class UserService {
@@ -43,7 +45,7 @@ export class UserService {
                 expiresIn: '1h'
             }
 
-            const token = jwt.sign(payload, secret, signInOptions)
+            const token = jwt.sign(payload, setting.secretkey, signInOptions)
 
             return token
         }
@@ -70,7 +72,7 @@ export class UserService {
             if(!token){
                 throw "Please Log In"
             }
-            let verified = jwt.verify(token, secret)
+            let verified = jwt.verify(token, setting.secretkey)
             if (!verified) {
                 throw "Authorization denied!"
             }

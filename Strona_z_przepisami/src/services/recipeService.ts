@@ -86,6 +86,10 @@ export class RecipeService {
             throw e
         }
     }
+    async RecipeExistById(id:any)
+    {
+        return await Recipe.exists({_id:id})
+    }
 
     async GetByTag(tag:string)
     {
@@ -124,7 +128,7 @@ export class RecipeService {
             {
                 recipe.NoOfPortions = _noOfPortions
             }
-            if(_cookingTime)
+            if(_cookingTime!=null)
             {
                 recipe.CookingTime = _cookingTime
             }
@@ -140,12 +144,12 @@ export class RecipeService {
             {
                 recipe.Tags = _tags
             }
-            recipe.update()
+            await Recipe.findByIdAndUpdate(id, recipe)
             console.log(recipe)
     
         } 
         catch (e) {
-            throw e
+            
         }
           
     }
@@ -164,9 +168,18 @@ export class RecipeService {
         }
     }
 
+    async DeleteComment(commentId:any)
+    {
+
+        //let x = await Recipe.updateOne({Comments:[{Comment:"Test Comment2"}]})
+        let x = await Recipe.Comments.pull({_id: commentId})
+        return x
+    }
+
     // async GetComment(commentId:any)
     // {
-    //     let recipe = await Recipe.find({Comments:{Comment:{id:commentId}}})
-    //     return recipe.Comment
+    //     let recipe = await Recipe.find({Comments:{_id:commentId}})
+    //     //let comment = await Recipe.find({"Comments.id":commentId})
+    //     let recipes = await this.GetRecipes()
     // }
 }

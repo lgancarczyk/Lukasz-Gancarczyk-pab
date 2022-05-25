@@ -59,13 +59,17 @@ router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response)
         let recipe = await _recipeService.GetRecipeById(recipeId)
         if(!recipe)
         {
-            res.status(400).send("Recipe doesn`t exists.");
+            res.status(400).send("Recipe doesn`t exists.")
         }
-        _recipeService.AddRate(recipeId, userId,rating)
+        else
+        {
+            await _recipeService.AddRate(recipeId, userId,rating)
+            res.status(200).send("success");
+        }
 
-        res.status(200).send("success");
-   } catch (error) {
-       throw e;
+   } 
+   catch (error) {
+       throw error;
    }
 })
 
@@ -81,21 +85,25 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
         {
             res.status(400).send("Recipe doesn`t exists.");
         }
-        const userIdRecipe = recipe.UserId
-        const userIdToken = req.headers.userId
-        if(userIdRecipe == userIdToken)
-        {
-            _recipeService.DeleteRecipe(id)
-            res.status(200).send("Recipe has been deleted.");
-        }
         else
         {
-            res.status(400).send("Your are not the owner");
+            const userIdRecipe = recipe.UserId
+            const userIdToken = req.headers.userId
+            if(userIdRecipe == userIdToken)
+            {
+                _recipeService.DeleteRecipe(id)
+                res.status(200).send("Recipe has been deleted.");
+            }
+            else
+            {
+                res.status(400).send("Your are not the owner");
+            }
         }
+        
     }
     catch(e)
     {
-        
+        res.status(400).send(e)
     }
 })
 router.get('/getall', async (req: Request, res: Response) => {
@@ -142,21 +150,38 @@ router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) =>
     }
 })
 
-// router.post('/deletecomment/:commentId',auth ,async (req: Request, res: Response) => {
+
+// router.get('/getcomment/:commentId',auth ,async (req: Request, res: Response) => {
 
 //     try 
 //     {
 //         const commentId:any = req.params.commentId
 //         const userId = req.headers.userId
-//         const comment = req.body.Comment
-//         let isSuccess = await _recipeService.AddComment(userId, commentId, comment)
-//         res.status(200).send(isSuccess.toString());
+//         let comment = await _recipeService.GetComment(commentId)
+//         res.status(200).send(comment);
 //     } 
 //     catch (error) 
 //     {
 //         res.status(400).send(error)
 //     }
 // })
+
+router.delete('/deletecomment/:commentId',auth ,async (req: Request, res: Response) => {
+
+    try 
+    {
+        const commentId:any = req.params.commentId
+        // const userId = req.headers.userId
+        let isSuccess = await _recipeService.DeleteComment(commentId)
+        res.status(200).send("success");
+    } 
+    catch (error) 
+    {
+        res.status(400).send(error)
+    }
+})
+
+
 
 
 
