@@ -19,7 +19,7 @@ API:\
         {\
           "username": "<your_username>",\
           "password": "<your_password>"\
-        }\
+        }<br />
 
   3.  LogOut: (GET)\
       (user must be logged in)\
@@ -34,26 +34,26 @@ API:\
       returns recipe id\
       http://localhost:3000/recipe/add<br />
       body:\
-        {\
+        {<br />
           "Title": "<Title>",\
           "NoOfPortions": <portions (int)>,\
           "CookingTime": <time_in_minutes (int)>,\
-          "Ingredients":[\
-              "<your ingredient>", "<your ingredient>"\
-          ],\
+          "Ingredients":[<br />
+              "<your ingredient>", "<your ingredient>"<br />
+          ],<br />
           "Instruction": "<your instruction>",\
           "Tags":[\
               "<your_tag>","<your_tag>"\
           ]\
-        }\
+        }<br />
   
   6.  Edit Recipe: (PUT)\
       (user must be logged in and be owner)\
       http://localhost:3000/recipe/edit/<recipe_id><br />
       body: (includes fields that you want to update)\
-        {\
+        {<br />
           "Title": "<your new title>"\
-        }\
+        }<br />
 
   7.  Delete Recipe: (DELETE)\
       (user must be logged in and be owner)\
@@ -68,9 +68,9 @@ API:\
       (user must be logged in)\
       http://localhost:3000/recipe/addcomment/<recipe_id><br />
       body:\
-        {\
+        {<br />
         "Comment":"<your_comment>"\
-        }\
+        }<br />
 
   10. Delete Comment: (DELETE)\
       (user must be logged in and be comment owner)\
