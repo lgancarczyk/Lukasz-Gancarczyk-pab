@@ -39,7 +39,7 @@ API:\
           "NoOfPortions": <portions (int)>,\
           "CookingTime": <time_in_minutes (int)>,\
           "Ingredients":[<br />
-              "<your ingredient>", "<your ingredient>"<br />
+              "<your_ingredient>", "<your_ingredient>"<br />
           ],<br />
           "Instruction": "<your instruction>",\
           "Tags":[\
