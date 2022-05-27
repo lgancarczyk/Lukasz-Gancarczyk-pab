@@ -41,7 +41,7 @@ API:\
           "Ingredients":[<br />
               "<your_ingredient>", "<your_ingredient>"<br />
           ],<br />
-          "Instruction": "<your instruction>",\
+          "Instruction": "<your_instruction>",<br />
           "Tags":[\
               "<your_tag>","<your_tag>"\
           ]\
@@ -52,7 +52,7 @@ API:\
       http://localhost:3000/recipe/edit/<recipe_id><br />
       body: (includes fields that you want to update)\
         {<br />
-          "Title": "<your new title>"\
+          "Title": "<your_new_title>"<br />
         }<br />
 
   7.  Delete Recipe: (DELETE)\
