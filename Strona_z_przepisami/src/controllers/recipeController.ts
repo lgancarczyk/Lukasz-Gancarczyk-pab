@@ -141,8 +141,8 @@ router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) =>
         const recipeId:any = req.params.recipeId
         const userId = req.headers.userId
         const comment = req.body.Comment
-        let isSuccess = await _recipeService.AddComment(userId, recipeId, comment)
-        res.status(200).send(isSuccess.toString());
+        const addedComment = await _recipeService.AddComment(userId, recipeId, comment)
+        res.status(200).send(addedComment);
     } 
     catch (error) 
     {

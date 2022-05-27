@@ -158,9 +158,9 @@ export class RecipeService {
         try 
         {
             let recipe = await Recipe.findById(_recipeId)
-            recipe.Comments.push({Comment:_comment, CommentUserId:_userId})
+            let comment = await recipe.Comments.push({Comment:_comment, CommentUserId:_userId})
             await recipe.save()
-            return 1
+            return comment
         } 
         catch (error) 
         {
@@ -172,8 +172,8 @@ export class RecipeService {
     {
 
         //let x = await Recipe.updateOne({Comments:[{Comment:"Test Comment2"}]})
-        let x = await Recipe.Comments.pull({_id: commentId})
-        return x
+        await Recipe.Comments.pull({_id: commentId}).save()
+        return 1
     }
 
     // async GetComment(commentId:any)

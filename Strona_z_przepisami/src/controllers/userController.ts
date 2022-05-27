@@ -4,6 +4,9 @@ import {UserService} from '../services/userService'
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+var settings = require('../settings.json');
+
+
 const User = require('../dbSchemas/userSchema')
 const auth = require("../middleware/auth")
 
@@ -51,7 +54,8 @@ router.post('/login', async (req: Request, res: Response) => {
         
         let token = await _userService.LoginUser(username, password)
         res.cookie('accesstoken', token)
-        res.status(200).send(token)
+        const data = jwt.verify(token, settings.secretkey);
+        res.status(200).send(data.id)
 
         // console.log(_userService.LoggedIn())
         //
