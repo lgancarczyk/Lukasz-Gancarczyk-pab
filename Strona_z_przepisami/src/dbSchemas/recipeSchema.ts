@@ -11,9 +11,7 @@ var commentSchema = new mongoose.Schema({
 });
 
 const recipeSchema = new mongoose.Schema({
-    //ReicpeId: { type:String, required:true, unique:true, index:true, default:mongoose.Types.ObjectId },
     UserId: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    //UserId: {type: String, required: true},
     Title: { type: String, required: true },
     NoOfPortions: { type: Number },
     CookingTime: { type: Number, required: true },

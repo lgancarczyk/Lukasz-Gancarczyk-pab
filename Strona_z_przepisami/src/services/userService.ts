@@ -1,28 +1,28 @@
-import { Console } from "console"
-
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require("cookie-parser")
 
-
 const User = require('../dbSchemas/userSchema')
-const auth = require("../middleware/auth")
-//const secret:string = "xxx"
 
 var setting = require('../settings.json')
 
 
 export class UserService {
     async AddUser(username: string, password: string) {
-        const salt = await bcrypt.genSalt()
-        const passwordHash = await bcrypt.hash(password, salt)
+        try {
+            const salt = await bcrypt.genSalt()
+            const passwordHash = await bcrypt.hash(password, salt)
 
-        const newUser = new User({
-            username: username,
-            password: passwordHash
-        })
-        const savedUser = await newUser.save()
-        return savedUser
+            const newUser = new User({
+                username: username,
+                password: passwordHash
+            })
+            const savedUser = await newUser.save()
+            return savedUser
+            
+        } catch (error) {
+            throw error
+        }
     }
 
     async LoginUser(username: string, password: string) {

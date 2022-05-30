@@ -16,7 +16,7 @@ const auth = (req:Request, res:Response, next:NextFunction) => {
       req.headers.username = data.username;
       return next();
     } catch(error) {
-      throw error
+      res.status(400).send("verification error!")
     }
    };
 

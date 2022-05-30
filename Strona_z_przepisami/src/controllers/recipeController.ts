@@ -1,6 +1,4 @@
 import e, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import { title } from 'process';
 import { RecipeService } from '../services/recipeService'
 
 const express = require('express');
@@ -11,11 +9,11 @@ const auth = require("../middleware/auth")
 const _recipeService = new RecipeService();
 
 router.post('/add',auth, async (req: Request, res: Response) => {
-    // let recipeId = await _recipeService.AddRecipe();
-    // res.status(200).send(`RecipeId: ${recipeId}`);
-    const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
+
     try
     {
+        const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
+
         const userId = req.headers.userId
         let recipeId = await _recipeService.AddRecipe(  userId,
                                                         Title,
@@ -35,17 +33,22 @@ router.post('/add',auth, async (req: Request, res: Response) => {
 //Edits only given elements
 router.put('/edit/:id', async (req: Request, res: Response) => {
 
-    const id:any = req.params.id
-    const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
-    
-    await _recipeService.EditRecipe( id,
-        Title,
-        NoOfPortions,
-        CookingTime,
-        Ingredients,
-        Instruction,
-        Tags)
-    res.status(200).send("success");
+    try {
+        const id:any = req.params.id
+        const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
+        
+        await _recipeService.EditRecipe( id,
+            Title,
+            NoOfPortions,
+            CookingTime,
+            Ingredients,
+            Instruction,
+            Tags)
+        res.status(200).send("success");
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 //rating 1-5,  0-deletes rate
@@ -69,7 +72,7 @@ router.post('/rate/:recipeId/:rating', auth, async (req: Request, res: Response)
 
    } 
    catch (error) {
-       throw error;
+    res.status(400).send(error)
    }
 })
 
@@ -91,7 +94,7 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
             const userIdToken = req.headers.userId
             if(userIdRecipe == userIdToken)
             {
-                _recipeService.DeleteRecipe(id)
+                await _recipeService.DeleteRecipe(id)
                 res.status(200).send("Recipe has been deleted.");
             }
             else
@@ -108,30 +111,50 @@ router.delete('/delete/:id', auth, async (req: Request, res: Response) => {
 })
 router.get('/getall', async (req: Request, res: Response) => {
 
-    let recipes = await _recipeService.GetRecipes()
-    res.status(200).send(recipes);
+    try {
+        let recipes = await _recipeService.GetRecipes()
+        res.status(200).send(recipes);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 router.get('/get/:id', async (req: Request, res: Response) => {
 
-    let recipe = await _recipeService.GetRecipeById(req.params.id)
-    res.status(200).send(recipe);
+    try {
+        let recipe = await _recipeService.GetRecipeById(req.params.id)
+        res.status(200).send(recipe);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 //returns list of recipes with given tag
 router.get('/tag/:tag', async (req: Request, res: Response) => {
 
-    const tag:any = req.params.tag
-    let recipes = await _recipeService.GetByTag(tag)
+    try {
+        const tag:any = req.params.tag
+        let recipes = await _recipeService.GetByTag(tag)
     
-    res.status(200).send(recipes);
+        res.status(200).send(recipes);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 router.get('/getbyuserid/:id', async (req: Request, res: Response) => {
 
-    const id:any = req.params.id
-    let recipes = await _recipeService.GetByUserId(id)
-    res.status(200).send(recipes);
+    try {
+        const id:any = req.params.id
+        let recipes = await _recipeService.GetByUserId(id)
+        res.status(200).send(recipes);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) => {
@@ -142,7 +165,7 @@ router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) =>
         const userId = req.headers.userId
         const comment = req.body.Comment
         const addedComment = await _recipeService.AddComment(userId, recipeId, comment)
-        res.status(200).send(addedComment);
+        res.status(200).send("Comment Added successfully");
     } 
     catch (error) 
     {
@@ -150,29 +173,14 @@ router.post('/addcomment/:recipeId',auth ,async (req: Request, res: Response) =>
     }
 })
 
-
-// router.get('/getcomment/:commentId',auth ,async (req: Request, res: Response) => {
-
-//     try 
-//     {
-//         const commentId:any = req.params.commentId
-//         const userId = req.headers.userId
-//         let comment = await _recipeService.GetComment(commentId)
-//         res.status(200).send(comment);
-//     } 
-//     catch (error) 
-//     {
-//         res.status(400).send(error)
-//     }
-// })
-
 router.delete('/deletecomment/:commentId',auth ,async (req: Request, res: Response) => {
 
     try 
     {
         const commentId:any = req.params.commentId
-        // const userId = req.headers.userId
-        let isSuccess = await _recipeService.DeleteComment(commentId)
+        const userId:any = req.headers.userId
+        
+        let isSuccess = await _recipeService.DeleteComment(commentId, userId)
         res.status(200).send("success");
     } 
     catch (error) 

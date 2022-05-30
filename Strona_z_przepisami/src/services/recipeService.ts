@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { dbmain } from "./DBContext";
 const Recipe = require('../dbSchemas/recipeSchema')
 
 
@@ -61,7 +60,7 @@ export class RecipeService {
 
         } 
         catch (error) {
-            
+            throw error
         }
     }
     async GetRecipes()
@@ -88,19 +87,31 @@ export class RecipeService {
     }
     async RecipeExistById(id:any)
     {
-        return await Recipe.exists({_id:id})
+        try {
+            return await Recipe.exists({_id:id})
+        } catch (error) {
+            throw error
+        }
     }
 
     async GetByTag(tag:string)
     {
-        let recipes = await Recipe.find({ Tags: tag })
-        return recipes
+        try {
+            let recipes = await Recipe.find({ Tags: tag })
+            return recipes
+        } catch (error) {
+            return error
+        }
     }
 
     async GetByUserId(id:any)
     {
-        let recipes = await Recipe.find({ UserId:id })
-        return recipes
+        try {
+            let recipes = await Recipe.find({ UserId:id })
+            return recipes
+        } catch (error) {
+            throw error
+        }
     }
 
     async DeleteRecipe(id:any)
@@ -149,7 +160,7 @@ export class RecipeService {
     
         } 
         catch (e) {
-            
+            throw e
         }
           
     }
@@ -171,16 +182,20 @@ export class RecipeService {
     async DeleteComment(commentId:any, userId:string)
     {
 
-        const ret = await Recipe.collection.updateMany({}, {
-            $pull: {
-                Comments: {
-                    '_id': new mongoose.Types.ObjectId(commentId),
-                    'CommentUserId': new mongoose.Types.ObjectId(userId)
+        try {
+            const ret = await Recipe.collection.updateMany({}, {
+                $pull: {
+                    Comments: {
+                        '_id': new mongoose.Types.ObjectId(commentId),
+                        'CommentUserId': new mongoose.Types.ObjectId(userId)
+                    }
                 }
-            }
-        })
-        
-        return 1
+            })
+            
+            return 1
+        } catch (error) {
+            throw error
+        }
     }
 
 }
