@@ -65,23 +65,5 @@ export class UserService {
         }
     }
 
-    async LoggedIn(){
-        
-        try {
-            let token = cookieParser.cookies.accesstoken;
-            if(!token){
-                throw "Please Log In"
-            }
-            let verified = jwt.verify(token, setting.secretkey)
-            if (!verified) {
-                throw "Authorization denied!"
-            }
-            console.log(verified.id)
-            return verified
-        } catch {
-        throw "Please Log In"
-        }
-
-    }
 }
 
