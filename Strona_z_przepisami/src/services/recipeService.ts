@@ -168,18 +168,19 @@ export class RecipeService {
         }
     }
 
-    async DeleteComment(commentId:any)
+    async DeleteComment(commentId:any, userId:string)
     {
 
-        //let x = await Recipe.updateOne({Comments:[{Comment:"Test Comment2"}]})
-        await Recipe.Comments.pull({_id: commentId}).save()
+        const ret = await Recipe.collection.updateMany({}, {
+            $pull: {
+                Comments: {
+                    '_id': new mongoose.Types.ObjectId(commentId),
+                    'CommentUserId': new mongoose.Types.ObjectId(userId)
+                }
+            }
+        })
+        
         return 1
     }
 
-    // async GetComment(commentId:any)
-    // {
-    //     let recipe = await Recipe.find({Comments:{_id:commentId}})
-    //     //let comment = await Recipe.find({"Comments.id":commentId})
-    //     let recipes = await this.GetRecipes()
-    // }
 }
