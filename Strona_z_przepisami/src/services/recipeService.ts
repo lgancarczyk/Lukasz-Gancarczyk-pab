@@ -126,11 +126,15 @@ export class RecipeService {
         }
     }
 
-    async EditRecipe(id:any, _title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
+    async EditRecipe(id:any,userId:any, _title:string, _noOfPortions:Number, _cookingTime: number, _ingredients:Array<string>, _instruction:string, _tags:Array<string>) {
         
 
         try {
             let recipe = await Recipe.findById(id)
+
+            if (recipe.UserId != userId ) {
+                throw "You are not the owner!"
+            }
             if(_title!= null)
             {
                 recipe.Title = _title

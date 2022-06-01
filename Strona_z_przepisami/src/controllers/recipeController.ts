@@ -31,13 +31,22 @@ router.post('/add',auth, async (req: Request, res: Response) => {
 })
 
 //Edits only given elements
-router.put('/edit/:id', async (req: Request, res: Response) => {
+router.put('/edit/:id',auth, async (req: Request, res: Response) => {
 
     try {
+        
+
+
         const id:any = req.params.id
+        const userId = req.headers.userId
+        //const recipe = _recipeService.GetRecipeById(id)
+
+        
+
         const {Title, NoOfPortions,CookingTime,Ingredients,Instruction,Tags} = req.body;
         
         await _recipeService.EditRecipe( id,
+            userId,
             Title,
             NoOfPortions,
             CookingTime,
